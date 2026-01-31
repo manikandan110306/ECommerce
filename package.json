@@ -12,6 +12,7 @@
   "author": "JV Logesh",
   "license": "ISC",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "crypto": "^1.0.1",
