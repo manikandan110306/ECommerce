@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { productsFail, productsSuccess, productsRequest } from '../slices/productsSlice';
 
-export const getProducts = ( keyword, currentPage) => async (dispatch) => {
+export const getProducts = ( keyword, price, category, rating, currentPage) => async (dispatch) => {
 
     try{
         dispatch(productsRequest());
@@ -9,6 +9,18 @@ export const getProducts = ( keyword, currentPage) => async (dispatch) => {
 
         if(keyword){
             link += `&keyword=${keyword}`;
+        }
+
+        if(price){
+            link += `&price[gte]=${price[0]}&price[lte]=${price[1]}`;
+        }
+
+        if(category){
+            link += `&category=${category}`;
+        }
+
+        if(rating){
+            link += `&ratings=${rating}`;
         }
 
         const { data } = await axios.get(link);
