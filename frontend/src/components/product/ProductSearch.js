@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../actions/productsActions";
+import { getProducts } from "../../actions/productActions";
 import MetaData from ".././layouts/MetaData";
 import Loader from ".././layouts/Loader";
 import Product from ".././product/Product";
@@ -11,7 +11,6 @@ import Slider from "rc-slider";
 import Tooltip from "rc-tooltip";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
-import { set } from "mongoose";
 
 export default function ProductSearch() {
   const dispatch = useDispatch();

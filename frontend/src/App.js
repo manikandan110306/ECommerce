@@ -8,6 +8,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductDetail from './components/product/ProductDetail';
 import ProductSearch from './components/product/ProductSearch';
+import Login from './components/user/Login';
+import Register from './components/user/Register';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
             <div className='container container-fluid'>
               <ToastContainer theme='dark'/>
               <Routes>
+                <Route exact path='/login' element={<Login/>}/>
+                <Route exact path='/register' element={<Register/>}/>
                 <Route exact path='/' element={<Home/>}/>
                 <Route exact path='/search/:keyword' element={<ProductSearch/>}/>
                 <Route exact path='/product/:id' element={<ProductDetail/>}/>
