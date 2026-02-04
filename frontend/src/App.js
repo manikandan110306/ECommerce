@@ -10,8 +10,19 @@ import ProductDetail from './components/product/ProductDetail';
 import ProductSearch from './components/product/ProductSearch';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
+import { useEffect } from 'react';
+import store from './store';
+import { loadUser } from './actions/userActions';
+import Profile from './components/user/Profile';
+import ProtectedRoute from './components/route/ProtectedRoute';
+import UpdateProfile from './components/user/UpdateProfile';
 
 function App() {
+
+  useEffect(() => {
+    store.dispatch(loadUser);
+  }, []);
+  
   return (
     <HelmetProvider>
       <Router>
@@ -23,6 +34,8 @@ function App() {
                 <Route exact path='/login' element={<Login/>}/>
                 <Route exact path='/register' element={<Register/>}/>
                 <Route exact path='/' element={<Home/>}/>
+                <Route exact path='/myprofile' element={<ProtectedRoute> <Profile/> </ProtectedRoute>}/>
+                <Route exact path='/update' element={<ProtectedRoute> <UpdateProfile/> </ProtectedRoute>}/>
                 <Route exact path='/search/:keyword' element={<ProductSearch/>}/>
                 <Route exact path='/product/:id' element={<ProductDetail/>}/>
               </Routes>
