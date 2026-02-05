@@ -16,6 +16,9 @@ import { loadUser } from './actions/userActions';
 import Profile from './components/user/Profile';
 import ProtectedRoute from './components/route/ProtectedRoute';
 import UpdateProfile from './components/user/UpdateProfile';
+import UpdatePassword from './components/user/UpdatePassword';
+import ForgotPassword from './components/user/ForgotPassword';
+import ResetPassword from './components/user/ResetPassword';
 
 function App() {
 
@@ -33,11 +36,20 @@ function App() {
               <Routes>
                 <Route exact path='/login' element={<Login/>}/>
                 <Route exact path='/register' element={<Register/>}/>
-                <Route exact path='/' element={<Home/>}/>
+
+                <Route exact path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+
                 <Route exact path='/myprofile' element={<ProtectedRoute> <Profile/> </ProtectedRoute>}/>
-                <Route exact path='/update' element={<ProtectedRoute> <UpdateProfile/> </ProtectedRoute>}/>
+                <Route exact path='/myprofile/update' element={<ProtectedRoute> <UpdateProfile/> </ProtectedRoute>}/>
+                <Route exact path='/myprofile/update/password' element={<ProtectedRoute> <UpdatePassword/> </ProtectedRoute>}/>
+
+                <Route exact path='/password/forgot' element={<ForgotPassword/>}/>
+                <Route exact path='/password/reset/:token' element={<ResetPassword/>}/>
+
                 <Route exact path='/search/:keyword' element={<ProductSearch/>}/>
                 <Route exact path='/product/:id' element={<ProductDetail/>}/>
+
+                <Route path='*' element={<h1 className='text-center'>404 Not Found</h1>}/>
               </Routes>
             </div>
           <Footer/>

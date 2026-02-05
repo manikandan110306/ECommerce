@@ -107,6 +107,69 @@ const authSlice = createSlice({
                 loading: false,
                 error: action.payload
             };
+        },
+        updatePasswordRequest(state, action) {
+            return {
+                ...state,  //Spread operator it takes the previous state values ie isAuthenticated
+                loading: true,
+                isUpdated: false
+            };
+        },
+        updatePasswordSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isUpdated: true
+            };
+        },
+        updatePasswordFail(state, action) {
+            return {
+                ...state,  //Spread operator it takes the previous state values ie isAuthenticated
+                loading: false,
+                error: action.payload
+            };
+        },
+        forgotPasswordRequest(state, action) {
+            return {
+                ...state,  //Spread operator it takes the previous state values ie isAuthenticated
+                loading: true,
+                message: null
+            };
+        },
+        forgotPasswordSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message
+            };
+        },
+        forgotPasswordFail(state, action) {
+            return {
+                ...state,  //Spread operator it takes the previous state values ie isAuthenticated
+                loading: false,
+                error: action.payload
+            };
+        },
+        resetPasswordRequest(state, action) {
+            return {
+                ...state,  //Spread operator it takes the previous state values ie isAuthenticated
+                loading: true,
+            };
+        },
+        resetPasswordSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                user: action.payload.user
+            };
+        },
+        resetPasswordFail(state, action) {
+            return {
+                ...state,  //Spread operator it takes the previous state values ie isAuthenticated
+                loading: false,
+                error: action.payload
+            };
         }
     },
 });
@@ -128,7 +191,16 @@ export const {
     logoutFail,
     updateProfileRequest,
     updateProfileSuccess,
-    updateProfileFail
+    updateProfileFail,
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    updatePasswordFail,
+    forgotPasswordRequest,
+    forgotPasswordSuccess,
+    forgotPasswordFail,
+    resetPasswordRequest,
+    resetPasswordSuccess,
+    resetPasswordFail
 } = actions;
 
 export default reducer;
