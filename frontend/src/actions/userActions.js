@@ -84,7 +84,7 @@ export const updateProfile = ( userData ) => async (dispatch) => {
                  "Content-Type": "multipart/form-data"
                 } 
         };
-
+        // Use correct backend endpoint
         const { data } = await axios.put(`/api/v1/update`, userData, config);
         dispatch(updateProfileSuccess(data));
     }

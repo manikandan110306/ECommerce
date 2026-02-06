@@ -18,7 +18,7 @@ export default function Profile() {
             alt=""
           />
         </figure>
-        <Link to="/update" id="edit_profile" className="btn btn-primary btn-block my-5">
+        <Link to="/myprofile/update" id="edit_profile" className="btn btn-primary btn-block my-5">
           Edit Profile
         </Link>
       </div>
@@ -33,7 +33,7 @@ export default function Profile() {
         <h4>Joined On</h4>
         <p>{String(user.createdAt).substring(0, 10)}</p>
 
-        <a href="#" className="btn btn-danger btn-block mt-5">
+        <a href="javascript;" className="btn btn-danger btn-block mt-5">
           My Orders
         </a>
 

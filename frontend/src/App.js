@@ -19,6 +19,7 @@ import UpdateProfile from './components/user/UpdateProfile';
 import UpdatePassword from './components/user/UpdatePassword';
 import ForgotPassword from './components/user/ForgotPassword';
 import ResetPassword from './components/user/ResetPassword';
+import Cart from './components/cart/Cart';
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
 
                 <Route exact path='/search/:keyword' element={<ProductSearch/>}/>
                 <Route exact path='/product/:id' element={<ProductDetail/>}/>
+                <Route exact path='/cart' element={<Cart/>}/>
 
                 <Route path='*' element={<h1 className='text-center'>404 Not Found</h1>}/>
               </Routes>
