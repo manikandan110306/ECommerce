@@ -20,6 +20,8 @@ import UpdatePassword from './components/user/UpdatePassword';
 import ForgotPassword from './components/user/ForgotPassword';
 import ResetPassword from './components/user/ResetPassword';
 import Cart from './components/cart/Cart';
+import Shipping from './components/cart/Shipping';
+import ConfirmOrder from './components/cart/ConfirmOrder';
 
 function App() {
 
@@ -50,6 +52,8 @@ function App() {
                 <Route exact path='/search/:keyword' element={<ProductSearch/>}/>
                 <Route exact path='/product/:id' element={<ProductDetail/>}/>
                 <Route exact path='/cart' element={<Cart/>}/>
+                <Route exact path='/shipping' element={<ProtectedRoute> <Shipping/> </ProtectedRoute>}/>  
+                <Route exact path='/order/confirm' element={<ProtectedRoute> <ConfirmOrder/> </ProtectedRoute>}/>  
 
                 <Route path='*' element={<h1 className='text-center'>404 Not Found</h1>}/>
               </Routes>
