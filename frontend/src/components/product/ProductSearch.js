@@ -5,7 +5,7 @@ import MetaData from ".././layouts/MetaData";
 import Loader from ".././layouts/Loader";
 import Product from ".././product/Product";
 import { toast } from "react-toastify";
-import Pagination from "react-js-pagination";
+import ReactPaginate from "react-paginate";
 import { useParams } from "react-router-dom";
 import Slider from "rc-slider";
 import Tooltip from "rc-tooltip";
@@ -39,10 +39,6 @@ export default function ProductSearch() {
     "Outdoor",
     "Home",
   ];
-
-  const setCurrentPageNo = (pageNo) => {
-    setCurrentPage(pageNo);
-  };
 
   useEffect(() => {
     if (error) {
@@ -156,21 +152,29 @@ export default function ProductSearch() {
             </div>
           </section>
           {productsCount > 0 && productsCount > resPerPage ? (
-            <div className="d-flex justify-content-center mt-5">
-              <Pagination
-                activePage={currentPage}
-                onChange={setCurrentPageNo}
-                totalItemsCount={productsCount}
-                itemsCountPerPage={resPerPage}
-                nextPageText={"Next"}
-                prevPageText={"Prev"}
-                firstPageText={"First"}
-                lastPageText={"Last"}
-                itemClass={"page-item"}
-                linkClass={"page-link"}
-              />
-            </div>
-          ) : null}
+  <div className="d-flex justify-content-center mt-5">
+    <ReactPaginate
+      previousLabel={"Prev"}
+      nextLabel={"Next"}
+      breakLabel={"..."}
+      pageCount={Math.ceil(productsCount / resPerPage)}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={3}
+      onPageChange={(data) => setCurrentPage(data.selected + 1)}
+      containerClassName={"pagination"}
+      pageClassName={"page-item"}
+      pageLinkClassName={"page-link"}
+      previousClassName={"page-item"}
+      previousLinkClassName={"page-link"}
+      nextClassName={"page-item"}
+      nextLinkClassName={"page-link"}
+      breakClassName={"page-item"}
+      breakLinkClassName={"page-link"}
+      activeClassName={"active"}
+    />
+  </div>
+) : null}
+
         </Fragment>
       )}
     </Fragment>

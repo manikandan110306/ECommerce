@@ -2,7 +2,7 @@ import './App.css';
 import Home from './components/Home';
 import Footer from './components/layouts/Footer';
 import Header from './components/layouts/Header';
-import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +10,7 @@ import ProductDetail from './components/product/ProductDetail';
 import ProductSearch from './components/product/ProductSearch';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import store from './store';
 import { loadUser } from './actions/userActions';
 import Profile from './components/user/Profile';
@@ -22,43 +22,72 @@ import ResetPassword from './components/user/ResetPassword';
 import Cart from './components/cart/Cart';
 import Shipping from './components/cart/Shipping';
 import ConfirmOrder from './components/cart/ConfirmOrder';
+import Payment from './components/cart/Payment';
+import axios from 'axios';
+
+// Stripe
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 function App() {
+  const [stripePromise, setStripePromise] = useState(null);
 
   useEffect(() => {
-    store.dispatch(loadUser);
+    store.dispatch(loadUser())
+
+    async function getStripeApiKey() {
+      const { data } = await axios.get('/api/v1/stripeapi');
+      const stripe = await loadStripe(data.stripeApiKey);
+      setStripePromise(stripe);
+    }
+
+    getStripeApiKey();
   }, []);
-  
+
   return (
     <HelmetProvider>
       <Router>
         <div className="App">
-          <Header/>
-            <div className='container container-fluid'>
-              <ToastContainer theme='dark'/>
-              <Routes>
-                <Route exact path='/login' element={<Login/>}/>
-                <Route exact path='/register' element={<Register/>}/>
+          <Header />
+          <div className="container container-fluid">
+            <ToastContainer theme="dark" />
 
-                <Route exact path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-                <Route exact path='/myprofile' element={<ProtectedRoute> <Profile/> </ProtectedRoute>}/>
-                <Route exact path='/myprofile/update' element={<ProtectedRoute> <UpdateProfile/> </ProtectedRoute>}/>
-                <Route exact path='/myprofile/update/password' element={<ProtectedRoute> <UpdatePassword/> </ProtectedRoute>}/>
+              <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
 
-                <Route exact path='/password/forgot' element={<ForgotPassword/>}/>
-                <Route exact path='/password/reset/:token' element={<ResetPassword/>}/>
+              <Route path="/myprofile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/myprofile/update" element={<ProtectedRoute><UpdateProfile /></ProtectedRoute>} />
+              <Route path="/myprofile/update/password" element={<ProtectedRoute><UpdatePassword /></ProtectedRoute>} />
 
-                <Route exact path='/search/:keyword' element={<ProductSearch/>}/>
-                <Route exact path='/product/:id' element={<ProductDetail/>}/>
-                <Route exact path='/cart' element={<Cart/>}/>
-                <Route exact path='/shipping' element={<ProtectedRoute> <Shipping/> </ProtectedRoute>}/>  
-                <Route exact path='/order/confirm' element={<ProtectedRoute> <ConfirmOrder/> </ProtectedRoute>}/>  
+              <Route path="/password/forgot" element={<ForgotPassword />} />
+              <Route path="/password/reset/:token" element={<ResetPassword />} />
 
-                <Route path='*' element={<h1 className='text-center'>404 Not Found</h1>}/>
-              </Routes>
-            </div>
-          <Footer/>
+              <Route path="/search/:keyword" element={<ProductSearch />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/shipping" element={<ProtectedRoute><Shipping /></ProtectedRoute>} />
+              <Route path="/order/confirm" element={<ProtectedRoute><ConfirmOrder /></ProtectedRoute>} />
+
+              {stripePromise && (
+                <Route
+                  path="/payment"
+                  element={
+                    <ProtectedRoute>
+                      <Elements stripe={stripePromise}>
+                        <Payment />
+                      </Elements>
+                    </ProtectedRoute>
+                  }
+                />
+              )}
+
+              <Route path="*" element={<h1 className="text-center">404 Not Found</h1>} />
+            </Routes>
+          </div>
+          <Footer />
         </div>
       </Router>
     </HelmetProvider>
