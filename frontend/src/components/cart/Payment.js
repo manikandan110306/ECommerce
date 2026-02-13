@@ -1,8 +1,12 @@
 import { useElements, useStripe } from "@stripe/react-stripe-js";
+import { CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
+import axios from 'axios';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { validateShipping } from "./Shipping";
+import { toast } from "react-toastify";
+import { orderCompleted } from "../../slices/cartSlice";
 
 export default function Payment() {
   const stripe = useStripe();
@@ -53,8 +57,57 @@ export default function Payment() {
     totalPrice: orderInfo.totalPrice,
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+    document.querySelector("#pay_btn").disabled = true;
+    try {
+      const { data } = await axios.post('/api/v1/payment/process',paymentData);
+      const clientSecret = data.client_secret;
+      const result = stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardNumberElement),
+          billing_details: {
+            name: user.name,
+            email: user.email
+          }
+        }
+      })
+
+      if(result.error)
+      {
+        toast((await result).error.message, {
+          type: "error",
+          position: "bottom-center"
+        })
+        document.querySelector("#pay_btn").disabled = false;
+      }
+      else
+      {
+        if((await result).paymentIntent.status === "succeeded")
+        {
+          toast("Payment Success!", {
+            type: "success",
+            position: "bottom-center"
+          })
+          dispatch(orderCompleted());
+          navigate("/order/success");
+        }
+        else
+        {
+          toast("Please try again", {
+          type: "warning",
+          position: "bottom-center"
+        })
+        }
+      }
+
+    } catch (error) {
+      toast(error?.response?.data?.message || "Payment failed! Please try again", {
+        type: "error",
+        position: "bottom-center"
+      });
+      document.querySelector("#pay_btn").disabled = false;
+    }
   };
 
   return (
@@ -64,36 +117,33 @@ export default function Payment() {
           <h1 className="mb-4">Card Info</h1>
           <div className="form-group">
             <label htmlFor="card_num_field">Card Number</label>
-            <input
+            <CardNumberElement
               type="text"
               id="card_num_field"
               className="form-control"
-              defaultValue=""
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="card_exp_field">Card Expiry</label>
-            <input
+            <CardExpiryElement
               type="text"
               id="card_exp_field"
               className="form-control"
-              defaultValue=""
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="card_cvc_field">Card CVC</label>
-            <input
+            <CardCvcElement
               type="text"
               id="card_cvc_field"
               className="form-control"
-              defaultValue=""
             />
           </div>
 
           <button id="pay_btn" type="submit" className="btn btn-block py-3">
-            Pay
+            Pay { ` $${orderInfo.totalPrice}`}
           </button>
         </form>
       </div>
