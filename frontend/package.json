@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.4",
     "countries-list": "^3.2.2",
+    "mdbreact": "^5.2.0",
     "rc-slider": "^11.1.9",
     "rc-tooltip": "^6.4.0",
     "react": "^18.3.1",
