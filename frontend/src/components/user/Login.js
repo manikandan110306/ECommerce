@@ -35,7 +35,7 @@ export default function Login() {
             });
             return;
         }
-    }, [error, isAuthenticated, navigate, dispatch]);
+    }, [error, isAuthenticated, navigate, dispatch, redirect]);
 
   return (
     <Fragment>
