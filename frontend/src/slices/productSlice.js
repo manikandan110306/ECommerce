@@ -5,7 +5,9 @@ const productSlice = createSlice({
     initialState: {
         loading: false,
         product: {},
-        isReviewSubmitted: false
+        isReviewSubmitted: false,
+        isProductCreated: false,
+        isProductDeleted: false
     },
     reducers: {
         productRequest(state, action) {
@@ -65,7 +67,61 @@ const productSlice = createSlice({
                 ...state,
                 product : {}
             }
-        }
+        },
+        newProductRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+            };
+        },
+        newProductSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                product: action.payload.product,
+                isProductCreated: true
+            };
+        },
+        newProductFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                isProductCreated: false
+            };
+        },
+        clearProductCreated(state, action) {
+            return {
+                ...state,
+                isProductCreated: false
+            }
+        },
+        deleteProductRequest(state, action) {
+            return {
+                ...state,
+                loading: true,
+            };
+        },
+        deleteProductSuccess(state, action) {
+            return {
+                ...state,
+                loading: false,
+                isProductDeleted: true
+            };
+        },
+        deleteProductFail(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+        },
+        clearProductDeleted(state, action) {
+            return {
+                ...state,
+                isProductDeleted: false
+            }
+        },
     },
 });
 
@@ -80,7 +136,15 @@ export const {
     createReviewFail,
     clearReviewSubmitted,
     clearError,
-    clearProduct
+    clearProduct,
+    newProductRequest,
+    newProductSuccess,
+    newProductFail,
+    clearProductCreated,
+    deleteProductFail,
+    deleteProductSuccess,
+    deleteProductRequest,
+    clearProductDeleted
  } = actions;
 
 export default reducer;

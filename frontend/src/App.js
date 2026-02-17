@@ -31,6 +31,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './components/cart/OrderSuccess';
 import UserOrders from './components/order/UserOrders';
 import OrderDetail from './components/order/OrderDetail';
+import Dashboard from './components/admin/Dashboard';
+import ProductList from './components/admin/ProductList';
+import NewProduct from './components/admin/NewProduct';
 
 function App() {
   const [stripePromise, setStripePromise] = useState(null);
@@ -90,9 +93,15 @@ function App() {
                 />
               )}
 
-              <Route path="*" element={<h1 className="text-center">404 Not Found</h1>} />
+              {/* <Route path="*" element={<h1 className="text-center">404 Not Found</h1>} /> */}
             </Routes>
           </div>
+          {/* Admin Routes */}
+          <Routes>
+            <Route exact path="/admin/dashboard" element={<ProtectedRoute isAdmin={true}><Dashboard /></ProtectedRoute>} />
+            <Route exact path="/admin/products" element={<ProtectedRoute isAdmin={true}><ProductList /></ProtectedRoute>} />
+            <Route exact path="/admin/products/create" element={<ProtectedRoute isAdmin={true}><NewProduct /></ProtectedRoute>} />
+          </Routes>
           <Footer />
         </div>
       </Router>
