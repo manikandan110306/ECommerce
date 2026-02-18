@@ -2,7 +2,7 @@ import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../layouts/Loader";
-import { oderDetail as orderDetailAction } from "../../actions/orderActions";
+import { orderDetail as orderDetailAction } from "../../actions/orderActions";
 export default function OrderDetail() {
   const { orderDetail, loading } = useSelector((state) => state.orderState);
   const {

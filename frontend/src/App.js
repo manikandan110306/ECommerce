@@ -34,6 +34,9 @@ import OrderDetail from './components/order/OrderDetail';
 import Dashboard from './components/admin/Dashboard';
 import ProductList from './components/admin/ProductList';
 import NewProduct from './components/admin/NewProduct';
+import UpdateProduct from './components/admin/UpdateProduct';
+import OrderList from './components/admin/OrderList';
+import UpdateOrder from './components/admin/UpdateOrder';
 
 function App() {
   const [stripePromise, setStripePromise] = useState(null);
@@ -101,6 +104,9 @@ function App() {
             <Route exact path="/admin/dashboard" element={<ProtectedRoute isAdmin={true}><Dashboard /></ProtectedRoute>} />
             <Route exact path="/admin/products" element={<ProtectedRoute isAdmin={true}><ProductList /></ProtectedRoute>} />
             <Route exact path="/admin/products/create" element={<ProtectedRoute isAdmin={true}><NewProduct /></ProtectedRoute>} />
+            <Route exact path="/admin/product/:id" element={<ProtectedRoute isAdmin={true}><UpdateProduct /></ProtectedRoute>} />
+            <Route exact path="/admin/orders" element={<ProtectedRoute isAdmin={true}><OrderList /></ProtectedRoute>} />
+            <Route exact path="/admin/order/:id" element={<ProtectedRoute isAdmin={true}><UpdateOrder /></ProtectedRoute>} />
           </Routes>
           <Footer />
         </div>

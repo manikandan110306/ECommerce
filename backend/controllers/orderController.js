@@ -79,10 +79,8 @@ exports.updateOrder =  catchAsyncError(async (req, res, next) => {
     if(order.orderStatus == 'Delivered') {
         return next(new ErrorHandler('Order has been already delivered!', 400))
     }
-    //Updating the product stock of each order item
-    order.orderItems.forEach(async orderItem => {
-        await updateStock(orderItem.product, orderItem.quantity)
-    })
+    // Updating the product stock of each order item
+    await Promise.all(order.orderItems.map(orderItem => updateStock(orderItem.product, orderItem.quantity)));
 
     order.orderStatus = req.body.orderStatus;
     order.deliveredAt = Date.now();
@@ -96,8 +94,11 @@ exports.updateOrder =  catchAsyncError(async (req, res, next) => {
 
 async function updateStock (productId, quantity){
     const product = await Product.findById(productId);
+    if (!product) {
+        throw new ErrorHandler(`Product not found with id: ${productId}`, 404);
+    }
     product.stock = product.stock - quantity;
-    product.save({validateBeforeSave: false})
+    await product.save({validateBeforeSave: false});
 }
 
 //Admin: Delete Order - api/v1/order/:id
