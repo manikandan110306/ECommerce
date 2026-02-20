@@ -56,31 +56,34 @@ export default function ProductDetail() {
     dispatch(createReview(formData));
   }
 
+  // Always fetch product on id change, clear on unmount
   useEffect(() => {
-    if(isReviewSubmitted) {
-      handleClose();
-      toast("Review Submitted Successfully", {
-          position: "bottom-center",
-          type: "success",
-          onOpen: () => { dispatch(clearReviewSubmitted()); }
-        });
-    }
-    if (error) {
-          toast(error, {
-            position: "bottom-center",
-            type: "error",
-            onOpen: () => { dispatch(clearError()); }
-          });
-          return;
-    }
-    if(!product._id || isReviewSubmitted) {
-      dispatch(getProduct(id));
-    }
-
+    dispatch(getProduct(id));
     return () => {
       dispatch(clearProduct());
+    };
+  }, [id, dispatch]);
+
+  // Handle review submission and error
+  useEffect(() => {
+    if (isReviewSubmitted) {
+      handleClose();
+      toast("Review Submitted Successfully", {
+        position: "bottom-center",
+        type: "success",
+        onOpen: () => { dispatch(clearReviewSubmitted()); }
+      });
+      // Fetch latest product data to show new review
+      dispatch(getProduct(id));
     }
-  }, [id, isReviewSubmitted, dispatch, error, product._id]);
+    if (error) {
+      toast(error, {
+        position: "bottom-center",
+        type: "error",
+        onOpen: () => { dispatch(clearError()); }
+      });
+    }
+  }, [isReviewSubmitted, error, dispatch, id]);
 
   return (
     <Fragment>

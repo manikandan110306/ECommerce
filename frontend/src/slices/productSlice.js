@@ -1,55 +1,58 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const productSlice = createSlice({
-    name: "product",
+    name: 'product',
     initialState: {
         loading: false,
         product: {},
         isReviewSubmitted: false,
         isProductCreated: false,
         isProductDeleted: false,
-        isProductUpdated: false
+        isProductUpdated: false,
+        isReviewDeleted: false,
+        reviews: []
     },
     reducers: {
-        productRequest(state, action) {
+        productRequest(state, action){
             return {
                 ...state,
-                loading: true,
-            };
+                loading: true
+            }
         },
-        productSuccess(state, action) {
+        productSuccess(state, action){
             return {
                 ...state,
                 loading: false,
                 product: action.payload.product
-            };
+            }
         },
-        productFail(state, action) {
+        productFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload
-            };
+                error:  action.payload
+            }
         },
-        createReviewRequest(state, action) {
+        createReviewRequest(state, action){
             return {
                 ...state,
-                loading: true,
-            };
+                loading: true
+            }
         },
-        createReviewSuccess(state, action) {
+        createReviewSuccess(state, action){
             return {
                 ...state,
                 loading: false,
                 isReviewSubmitted: true
-            };
+            }
         },
-        createReviewFail(state, action) {
+        createReviewFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload
-            };
+                error:  action.payload
+            }
         },
         clearReviewSubmitted(state, action) {
             return {
@@ -57,39 +60,37 @@ const productSlice = createSlice({
                 isReviewSubmitted: false
             }
         },
-        clearError(state,action) {
-            return {
-                ...state,
-                error: null
-            }
+        clearError(state, action) {
+           return{ ...state,
+            error: null
+           }
         },
-        clearProduct(state,action) {
-            return {
-                ...state,
+        clearProduct(state, action) {
+            return{ ...state,
                 product : {}
             }
         },
-        newProductRequest(state, action) {
+        newProductRequest(state, action){
             return {
                 ...state,
-                loading: true,
-            };
+                loading: true
+            }
         },
-        newProductSuccess(state, action) {
+        newProductSuccess(state, action){
             return {
                 ...state,
                 loading: false,
                 product: action.payload.product,
                 isProductCreated: true
-            };
+            }
         },
-        newProductFail(state, action) {
+        newProductFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload,
+                error:  action.payload,
                 isProductCreated: false
-            };
+            }
         },
         clearProductCreated(state, action) {
             return {
@@ -97,25 +98,53 @@ const productSlice = createSlice({
                 isProductCreated: false
             }
         },
-        deleteProductRequest(state, action) {
+         newProductRequest(state, action){
             return {
                 ...state,
-                loading: true,
-            };
+                loading: true
+            }
         },
-        deleteProductSuccess(state, action) {
+        newProductSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                product: action.payload.product,
+                isProductCreated: true
+            }
+        },
+        newProductFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+                isProductCreated: false
+            }
+        },
+        clearProductCreated(state, action) {
+            return {
+                ...state,
+                isProductCreated: false
+            }
+        },
+        deleteProductRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        deleteProductSuccess(state, action){
             return {
                 ...state,
                 loading: false,
                 isProductDeleted: true
-            };
+            }
         },
-        deleteProductFail(state, action) {
+        deleteProductFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload,
-            };
+                error:  action.payload,
+            }
         },
         clearProductDeleted(state, action) {
             return {
@@ -123,34 +152,83 @@ const productSlice = createSlice({
                 isProductDeleted: false
             }
         },
-        updateProductRequest(state, action) {
+
+        updateProductRequest(state, action){
             return {
                 ...state,
-                loading: true,
-            };
+                loading: true
+            }
         },
-        updateProductSuccess(state, action) {
+        updateProductSuccess(state, action){
             return {
                 ...state,
                 loading: false,
                 product: action.payload.product,
                 isProductUpdated: true
-            };
+            }
         },
-        updateProductFail(state, action) {
+        updateProductFail(state, action){
             return {
                 ...state,
                 loading: false,
-                error: action.payload,
-            };
+                error:  action.payload,
+            }
         },
         clearProductUpdated(state, action) {
             return {
                 ...state,
                 isProductUpdated: false
             }
-        }
-    },
+        },
+
+        reviewsRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        reviewsSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                reviews: action.payload.reviews
+            }
+        },
+        reviewsFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+        deleteReviewRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        deleteReviewSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                isReviewDeleted: true
+            }
+        },
+        deleteReviewFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+            }
+        },
+        clearReviewDeleted(state, action) {
+            return {
+                ...state,
+                isReviewDeleted: false
+            }
+        },
+
+    }
 });
 
 const { actions, reducer } = productSlice;
@@ -159,24 +237,31 @@ export const {
     productRequest, 
     productSuccess, 
     productFail,
+    createReviewFail,
     createReviewRequest,
     createReviewSuccess,
-    createReviewFail,
-    clearReviewSubmitted,
     clearError,
+    clearReviewSubmitted,
     clearProduct,
-    newProductRequest,
-    newProductSuccess,
     newProductFail,
+    newProductSuccess,
+    newProductRequest,
     clearProductCreated,
     deleteProductFail,
-    deleteProductSuccess,
     deleteProductRequest,
+    deleteProductSuccess,
     clearProductDeleted,
+    updateProductFail,
     updateProductRequest,
     updateProductSuccess,
-    updateProductFail,
-    clearProductUpdated
- } = actions;
+    clearProductUpdated,
+    reviewsRequest,
+    reviewsFail,
+    reviewsSuccess,
+    deleteReviewFail,
+    deleteReviewRequest,
+    deleteReviewSuccess,
+    clearReviewDeleted
+} = actions;
 
 export default reducer;

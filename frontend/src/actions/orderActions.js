@@ -29,7 +29,7 @@ export const orderDetail = id => async(dispatch) => {
     }
 }
 
-export const adminOrders = async(dispatch) => {
+export const adminOrders = () => async (dispatch) => {
     try {
        dispatch(adminOrdersRequest())
        const {data} = await axios.get(`/api/v1/admin/orders`)
