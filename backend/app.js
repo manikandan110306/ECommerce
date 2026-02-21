@@ -9,9 +9,9 @@ const cors = require('cors');
 // Load env
 dotenv.config({ path: path.join(__dirname, "config/config.env") });
 
-// ✅ VERY IMPORTANT — allow frontend requests
+// ✅ FIXED CORS
 app.use(cors({
-    origin: "*",
+    origin: true,
     credentials: true
 }));
 
@@ -30,7 +30,7 @@ app.use('/api/v1/', auth);
 app.use('/api/v1/', order);
 app.use('/api/v1/', payment);
 
-// ⭐ Production frontend build serving (only if you deploy frontend inside backend)
+// Only used if frontend build exists inside backend
 if(process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
 
@@ -39,7 +39,6 @@ if(process.env.NODE_ENV === "production") {
     });
 }
 
-// Error middleware
 app.use(errorMiddleware);
 
 module.exports = app;

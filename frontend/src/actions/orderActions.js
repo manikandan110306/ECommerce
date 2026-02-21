@@ -10,7 +10,7 @@ export const createOrder = order => async(dispatch) => {
         dispatch(createOrderFail(error.response.data.message))
     }
 }
-export const userOrders = async(dispatch) => {
+export const userOrders = () => async(dispatch) => {
     try {
        dispatch(userOrdersRequest())
        const {data} = await axios.get(`/api/v1/myorders`)
