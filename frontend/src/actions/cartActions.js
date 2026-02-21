@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../axios';
 import { addCartItemRequest, addCartItemSuccess } from "../slices/cartSlice";
 
 export const addCartItem = (id, quantity) => async (dispatch) => {
